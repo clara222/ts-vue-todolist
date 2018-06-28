@@ -56,17 +56,17 @@
   import { Component, Prop, Vue, Watch } from "vue-property-decorator"
   import { State, Action, Getter } from "vuex-class";
   import axios from 'axios'
-  import {mapGetters} from 'vuex'
   @Component({
     components: {}
   })
   export default class TodoList extends Vue {
-    @Getter todoLists: Array<IListItem>;
-    @Getter doneTodoList: Array<IListItem>;
-    @Action addList: (val: IListItem) => void;
-    @Action editList: (val: IListItem) => void;
-    @Action deleteList: (val: number) => void;
-    @Action changeList: (val: Array<IListItem>) => void;
+    @Getter todoLists !: Array<IListItem>;
+    @Getter doneTodoList !: Array<IListItem>;
+    @Action addList !: (val: IListItem) => void;
+    @Action editList !: (val: IListItem) => void;
+    @Action deleteList !: (val: number) => void;
+    @Action changeList !: (val: Array<IListItem>) => void;
+
 
     private todoList: Array<IListItem> = [] 
     private dialog: boolean = false

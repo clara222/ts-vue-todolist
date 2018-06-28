@@ -1,3 +1,8 @@
+interface IListItem {
+  ListName: string
+  isComplete?: boolean
+  index:number
+}
 import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex)
@@ -5,41 +10,41 @@ const state = {
   todoList: []
 }
 const mutations = {
-  changeTodoList (state, list) {
+  changeTodoList (state:any, list:Array<IListItem>) {
     state.todoList = list
   },
-  addTodoList (state, list) {
+  addTodoList (state:any, list:IListItem) {
     state.todoList = [...state.todoList, list]
   },
-  editTodoList (state, obj) {
+  editTodoList (state:any, obj:IListItem) {
     state.todoList[obj.index].ListName = obj.ListName
   },
-  delTodoList (state, idx) {
+  delTodoList (state:any, idx:number) {
     state.todoList.splice(idx,1)
   }
 }
 
 const actions = {
-  changeList ({commit},list) {
+  changeList ({commit}:any,list:Array<IListItem>) {
     commit('changeTodoList',list)
   },
-  addList ({commit}, list) {
+  addList ({commit}:any, list:IListItem) {
     commit('addTodoList', list)
   },
-  editList ({commit}, obj) {
+  editList ({commit}:any, obj:IListItem) {
     commit('editTodoList', obj)
   },
-  deleteList ({commit}, idx) {
+  deleteList ({commit}:any, idx:number) {
     commit('delTodoList', idx)
   }
 }
 
 const getters = {
-  todoLists: (state) => {
+  todoLists: (state:any) => {
     return state.todoList
   },
-  doneTodoList: (state) => {
-    return state.todoList.filter(todo => todo.isComplete)
+  doneTodoList: (state:any) => {
+    return state.todoList.filter((todo:IListItem) => todo.isComplete)
   }
 }
 export default new Vuex.Store({
