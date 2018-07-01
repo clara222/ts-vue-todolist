@@ -9,7 +9,7 @@ Vue.use(Vuex)
 const getList = function() {
   var lists = localStorage.getItem('todoList');
   if (lists) {
-    return JSON.parse(localStorage.getItem('todoList'))
+    return JSON.parse(JSON.stringify(localStorage.getItem('todoList')))
   } else {
     return [];
   }
