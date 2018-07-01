@@ -10,7 +10,7 @@
           <v-list subheader>
             <v-list-tile avatar v-for="(item,index) in todoList" :key="index">
               <v-list-tile-action>
-                <v-checkbox v-model="item.isComplete"  color="grey darken-1"></v-checkbox>
+                 <v-checkbox v-model="item.isComplete"  color="grey darken-1"></v-checkbox>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title :style="{'textDecoration': item.isComplete?'line-through':'none'}">{{item.ListName}}</v-list-tile-title>
@@ -140,8 +140,14 @@
     async getListData () {
       try {
         var res = await axios.get('/json/list.json')
-        // this.$store.dispatch('changeList', res.data.result)
-        this.changeList(res.data.result)
+        var flag = localStorage.getItem('todoList')
+        console.log(flag)
+        if (flag) {
+          this.changeList(JSON.parse(flag))
+        } else {
+          this.changeList(res.data.result)
+        }
+        
       }catch (err) {
         console.log(err)
       }
