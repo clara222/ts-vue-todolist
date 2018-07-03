@@ -1,7 +1,11 @@
 <template>
-  <div id="app">   
-    <router-view/>
-  </div>
+  <v-app>
+  <v-content>
+    <!-- <v-container fluid> -->
+      <router-view></router-view>
+    <!-- </v-container> -->
+  </v-content>
+</v-app>
 </template>
 
 <style lang="less">
@@ -11,6 +15,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  padding-top: 20px;
 }
 </style>

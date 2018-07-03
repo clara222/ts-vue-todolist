@@ -1,14 +1,14 @@
 <template>
-  <v-app>
-    <v-layout row>
-      <v-flex xs12 sm6 offset-sm3>
-        <v-card>
+  <!-- <v-container fluid> -->
+    <v-layout row fill-height>
+      <v-flex xs12>
+        <v-card style="height: 100%;">
           <v-toolbar color="teal" dark>
             <v-toolbar-title>{{todoList.length}}个任务，{{doneListNum}}个已完成</v-toolbar-title>
           </v-toolbar>
           <!--list-->
           <v-list subheader>
-            <v-list-tile avatar v-for="(item,index) in todoList" :key="index">
+            <v-list-tile avatar v-for="(item,index) in todoList" :key="index" @click="()=>{}">
               <v-list-tile-action>
                  <v-checkbox v-model="item.isComplete"  color="grey darken-1"></v-checkbox>
               </v-list-tile-action>
@@ -22,11 +22,11 @@
               </v-list-tile-action>
             </v-list-tile>
           </v-list>
-          <v-btn fab dark color="indigo" @click.native.stop="onAddBtnIsClicked()">
+          <v-btn fab dark  fixed bottom right color="indigo" @click.native.stop="onAddBtnIsClicked()">
             <v-icon dark>add</v-icon>
           </v-btn>
           <!--dialog-->
-          <v-dialog v-model="dialog" max-width="460">
+          <v-dialog v-model="isShowDialog" max-width="460">
             <v-card>
               <v-card-title class="headline">任务编辑</v-card-title>
                 <v-text-field
@@ -36,7 +36,7 @@
                 ></v-text-field>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="red darken-1" flat="flat" @click.native="onDelBtnIsClicked()" v-if="del">删除</v-btn>
+                <v-btn color="red darken-1" flat="flat" @click.native="onDelBtnIsClicked()" v-if="isShowDelBtn">删除</v-btn>
                 <v-btn color="green darken-1" flat="flat" @click.native="onSaveBtnIsClicked()">保存</v-btn>
               </v-card-actions>
             </v-card>
@@ -44,7 +44,7 @@
         </v-card>
       </v-flex>
     </v-layout>
-  </v-app>
+  <!-- </v-container> -->
 </template>
 
 <script lang='ts'>
@@ -69,9 +69,9 @@
 
 
     private todoList: Array<IListItem> = [] 
-    private dialog: boolean = false
+    private isShowDialog: boolean = false
     private userInput: string = ''
-    private del: boolean = false
+    private isShowDelBtn: boolean = false
     private doneListNum: number = 0
     private idx: number = 0
 
@@ -89,29 +89,29 @@
       this.doneListNum = n.length
     }
 
-    @Watch('dialog')
-    private onDialogChanged(n:boolean, o:boolean) {
+    @Watch('isShowDialog')
+    private onisShowDialogChanged(n:boolean, o:boolean) {
       if (!n) {
         this.userInput = ''
       }
     }
 
     onAddBtnIsClicked () {
-      this.del = false
-      this.dialog = true
+      this.isShowDelBtn = false
+      this.isShowDialog = true
     }
 
     onEditBtnIsClicked (v:string, index:number) {
-        this.del = true
-        this.dialog = true
+        this.isShowDelBtn = true
+        this.isShowDialog = true
         this.userInput = v
         this.idx = index
     }
 
     onSaveBtnIsClicked () {
-      this.dialog = false
+      this.isShowDialog = false
       if (this.userInput !== '') {
-        if (!this.del) {
+        if (!this.isShowDelBtn) {
           var list:IListItem = {
             "ListName": this.userInput,
             "isComplete": false
@@ -132,7 +132,7 @@
     }
 
     onDelBtnIsClicked () {
-      this.dialog = false
+      this.isShowDialog = false
       // this.$store.dispatch('deleteList', this.idx)
       this.deleteList(this.idx)
     }
